@@ -1,0 +1,219 @@
+body
+{
+	background-color: black;
+	color: white; /* Couleur de la police */
+	margin: 0px;
+	font-family: sans-serif;
+}
+
+
+header
+{
+	display: flex;
+	justify-content: space-between;
+	font-family: sans-serif;
+	background-color: #545454;
+	padding-top: 0px;
+	padding-bottom: 0pc;
+}
+header h1
+{
+	font-size: 150%;
+	margin: 2%;
+}
+header h2
+{
+	font-size: 100%;
+	margin: 2.4%;
+}
+
+
+footer
+{
+	margin-left: 43%;
+	font-size: 90%
+}
+
+
+.ecran
+{
+	position: static;
+	width: 76%;
+	height:800px;
+	background-color:black;
+}
+.ecran h1
+{
+	margin: 0px;
+	font-size: 120%;
+	text-align: center;
+}
+.ecran p
+{
+	text-align: center;
+	margin-top: 1%;
+	margin-bottom: 5%;
+	font-size: 120%;
+}
+#img1_div
+{
+	margin-top: 10%;
+	margin-left: 32%;
+	opacity: 0;
+}
+#img2_div
+{
+	margin-top: -32%;
+	margin-left: 32%;
+	opacity: 0;
+}
+#parent_select
+{
+	width:60%;
+	margin-left: 20%;
+	margin-top: 10px;
+}
+
+
+.parents h1
+{
+	margin-bottom: 9px;
+}
+
+.parents
+{
+	width: 30%;
+	height: 90px;
+	border-radius: 50px;
+	background-color: #2CD800;
+	margin-top: 190px;
+	float: left;
+	overflow: scroll;
+
+}
+.main_character
+{
+	width: 25%;
+	height: 300px;
+	border-radius: 50px;
+	background-color: orange;
+	margin-left: 9%;
+	float: left;
+	margin-top: 150px;
+	overflow: scroll;
+}
+
+
+.panneau_config
+{
+	float:left;
+	position: relative;
+	top: -800px;
+	left: 76%;
+	width: 24%;
+	height: 800px;
+	background-color: #545454;
+	padding-top: 0px;
+	padding-bottom: 0pc;
+	overflow: scroll;
+}
+.panneau_config input
+{
+	background: none;
+	border: none;
+	border-bottom: 3px solid #06CEB3;
+}
+.panneau_config h1
+{
+	font-size: 130%;
+	text-align: center;
+	margin-bottom: 3px;
+}
+.panneau_config h2
+{
+	font-size: 110%;
+	text-align: center;
+}
+.panneau_config label
+{
+	padding-right: 15px;
+}
+
+input[type="date"]
+{
+	width: 60%;
+	color: white;
+	text-align: center;
+	margin-left: 20%;
+	margin-top: 5px;
+}
+
+
+.check
+{
+	text-align: center;
+}
+
+/* # pour les id et . pour les class */
+#Button_ok
+{
+	margin-top: 5%;
+	margin-left: 25%;
+	width: 50%;
+	border: 2px solid #00D2B6;
+	color: white;
+}
+#Button_ok:hover
+{
+	margin-top: 5%;
+	margin-left: 25%;
+	width: 50%;
+	border: 2px solid #FEB201;
+	color: white;
+}
+
+.entry
+{
+	width: 80%;
+	overflow: hidden;
+	margin-left: 10%;
+	color: white;
+}
+
+.compagne
+{
+	width: 27%;
+	height: 200px;
+	float:left;
+	border-radius: 50px;
+	margin-left: 6.5%;
+	margin-top: 190px;
+	background-color: #2CD800;
+	overflow: scroll;
+}
+
+#kid
+{
+	width: 75%;
+	margin-left: 12.5%;
+	margin-top: 5px;
+}
+
+#button_delete_kid
+{
+	background: none;
+	border: 2px solid;
+}
+#button_delete_kid:hover
+{
+	background: #FEFE01;
+	border: 2px solid;
+}
+
+#result
+{
+	width: 70%;
+	height: 30px;
+	font-size: 60%;
+	margin: 0px;
+}

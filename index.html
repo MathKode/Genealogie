@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+
+<script type="text/javascript">
+	var personne = [];
+	var lien = [];
+	var index = 1;
+	function checkbutton(button_press){
+		btn1 = document.getElementById("Homme").checked;
+		btn2 = document.getElementById("Femme").checked;
+		//alert( btn1 + button_press + btn2);
+		if (btn1 == true && button_press == "Homme"){
+			document.getElementById("Femme").checked = false;
+		}
+		if (btn2 == true && button_press == "Femme"){
+			document.getElementById("Homme").checked = false;
+		}
+	}
+	function validate() {
+		name = document.getElementById("entry_name").value;
+		surname = document.getElementById("entry_surname").value;
+		age = document.getElementById("date").value;
+		
+		// Inverse la vr age 
+		age_ls = age.split("-");
+		var age_reverse = [];
+		for (const i of age_ls) {
+			age_reverse.unshift(i);
+		}
+		age = age_reverse.join("/");
+		//Remplace les valeurs
+		document.getElementById('Nom').innerHTML = name;
+		document.getElementById('Prenom').innerHTML = surname;
+		document.getElementById('Age').innerHTML = age;
+
+		//Ajoute ceci à la list personne
+		var exist = false;
+		var t = 0;
+		for (const i of personne){
+			if (i[0] == "@" + index + "@"){
+				exist = true;
+				var position = t;
+			}
+			t = t + 1;
+		}
+		
+		if (exist){
+			delete personne[position];
+		}
+		var perso = ["@" + index + "@",name,surname];
+		//push pour ajouter 
+
+		//Change l'opacité de l'image du sexe
+		var sex = "M";
+		btn1 = document.getElementById("Homme").checked;
+		btn2 = document.getElementById("Femme").checked;
+		if (btn1){
+			img = document.getElementById("img1_div");
+			img.style.opacity = 1;
+			perso.push("M");
+		} else {
+			img = document.getElementById("img1_div");
+			img.style.opacity = 0;
+		}
+		if (btn2){
+			img = document.getElementById("img2_div");
+			img.style.opacity = 1;
+			perso.push("F");
+			sex = "F";
+		} else {
+			img = document.getElementById("img2_div");
+			img.style.opacity = 0;
+		}
+		var month = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+		perso.push(age_reverse[0] +" "+ month[age_reverse[1]-1] + " "+age_reverse[2]);
+		personne.push(perso);
+
+		soon_id = "@" + index + "@"
+
+		//Father
+		name = document.getElementById("entry_name_pere").value;
+		surname = document.getElementById("entry_surname_pere").value;
+		document.getElementById("Pere").innerHTML = name + " " + surname;
+		
+		//Supp les empty event
+		personne = personne.filter(function () { return true });
+		
+		index_father = index + 1
+		var exist = false;
+		var t = 0;
+
+		for (const j of personne){
+			if (j[0] == "@" + index_father + "@"){
+				exist = true;
+				var position = t;
+			}
+			t = t + 1;
+		}
+		if (exist){
+			var perso = personne[position];
+			delete personne[position];
+			perso[1] = name;
+			perso[2] = surname;
+			personne.push(perso);
+		} else {
+			var perso = ["@" + index_father + "@",name,surname,"M",""];
+			personne.push(perso);
+		}
+		
+		father_id = "@" + index_father + "@"
+
+		//Mother
+		name = document.getElementById("entry_name_mere").value;
+		surname = document.getElementById("entry_surname_mere").value;
+		document.getElementById("Mere").innerHTML = name + " " + surname;
+		
+		//Supp les empty event
+		personne = personne.filter(function () { return true });
+
+		index_mother = index + 2
+		var exist = false;
+		var t = 0;
+		for (const i of personne){
+			if (i[0] == "@" + index_mother + "@"){
+				exist = true;
+				var position = t;
+			}
+			t ++;
+		}
+		if (exist){
+			var perso = personne[position];
+			delete personne[position];
+			perso[1] = name;
+			perso[2] = surname;
+			personne.push(perso);
+		} else {
+			var perso = ["@" + index_mother + "@",name,surname,"F",""];
+			personne.push(perso);
+		}
+		
+		mother_id = "@" + index_mother + "@"
+
+		//lien Pere Mere
+		// Recher la ou index soon est enfant
+		var t = 0;
+		var exist = false;
+		for (const l of lien){
+			var r = 0;
+			for (const role of l){
+				if (r > 1 && role == soon_id){
+					exist = true;
+					position = t;
+				}
+				r ++;
+			}
+			t ++;
+		}
+		if (exist){
+			var l = lien[position]
+			delete lien[position];
+			l[0] = father_id;
+			l[1] = mother_id;
+			lien.push(l);
+		} else {
+			lien.push([father_id,mother_id,soon_id]);
+		}
+		//alert(lien);
+
+		//Épouse
+		name = document.getElementById("entry_name_cop").value;
+		surname = document.getElementById("entry_surname_cop").value;
+		document.getElementById("compagne_label").innerHTML = name + " " + surname;
+		//lien Epoux/se
+		// Recherche la ou il est le père ou la mère
+		if (sex == "M"){
+			var t = 0;
+			var exist = false;
+			for (const l of lien){
+				if (l[0] && l[0] == soon_id){
+					exist = true;
+					position = t;
+				}
+				t ++;
+			}
+			if (exist){
+				var l = lien[position]
+				delete lien[position];
+				l[0] = soon_id;
+				l[1] = "@" + (index + 3) + "@";
+				lien.push(l);
+			} else {
+				lien.push([soon_id,"@" + (index + 3) + "@"]);
+			}
+		} else {
+			var t = 0;
+			var exist = false;
+			for (const l of lien){
+				if (l[1] && l[1] == soon_id){
+					exist = true;
+					position = t;
+				}
+				t ++;
+			}
+			if (exist){
+				var l = lien[position]
+				delete lien[position];
+				l[1] = soon_id;
+				l[0] = "@" + (index + 3) + "@";
+				lien.push(l);
+			} else {
+				lien.push(["@" + (index + 3) + "@",soon_id]);
+			}	
+		}
+		//alert(lien);
+		//Supp les empty event
+		personne = personne.filter(function () { return true });
+
+		index_wife = index + 3
+		var exist = false;
+		var t = 0;
+		for (const i of personne){
+			if (i[0] == "@" + index_wife + "@"){
+				exist = true;
+				var position = t;
+			}
+			t = t + 1;
+		}
+		if (exist){
+			var perso = personne[position];
+			delete personne[position];
+			perso[1] = name;
+			perso[2] = surname;
+			personne.push(perso);
+		} else {
+			var perso = ["@" + index_wife + "@",name,surname,"",""];
+			personne.push(perso);
+		}
+		
+		//Supp les empty event
+		personne = personne.filter(function () { return true });
+
+		alert(personne);
+	}
+	function add_kid() {
+		name = document.getElementById("entry_name_kid").value;
+		surname = document.getElementById("entry_surname_kid").value;
+		for (let num = 1; num<7; num++){
+			//alert("kid" + num);
+			var id = "kid" + num;
+			if (num == 6){
+				alert("Nombre Maximum d'enfant atteint")
+			} else {
+				if (document.getElementById(id).innerHTML == ""){
+					//alert("avoid");
+					document.getElementById(id).innerHTML = name + " " + surname;
+					break;
+				}	
+			}
+			
+		}
+	}
+	function supp_kid(){
+		//Recupere la valeur courante de la liste
+		value = document.getElementById("kid").value;
+		//alert(value);
+		for (let num = 1; num<6; num++){
+			var id = "kid" + num
+			if (document.getElementById(id).innerHTML == value){
+				//alert("avoid");
+				document.getElementById(id).innerHTML = ""
+				break;
+			}
+		}
+	}
+	function save(){
+		//alert("ok")
+		var result = "0 HEAD\n1 SOUR BiMathAx\n1 GEDC\n2 FORM VERS 5.5\n1 CHAR UTF-8\n1 LANG FRENCH\n";
+		var famille_index = personne.length + 1;
+		var famille_link_ls = [];
+		//alert("ok2")
+		//alert(lien)
+		for (const famille of lien){
+			// Création de la famille à la fin de personne
+			//alert(famille)
+			var r2 = "0 @" + famille_index + "@ FAM\n"
+			var role = 0
+			for (const p of famille){
+				//alert(role + p)
+				if (role < 2){
+					//Ajouter l'élément Adulte FAMS à la personne
+					var t = 0;
+					//alert("ok3")
+					//alert(personne)
+					for (const i of personne){
+						//alert('tour ' +i)
+						if (i[0]==p){
+							//alert('ok4')
+							var l = personne[t];
+							delete personne[t];
+							l.push("1 FAMS @"+ famille_index +"@");
+							personne.push(l);
+							break;
+						}
+						t ++;
+					} 
+				} else {
+					//Ajouter l'élément enfant FAMC à la personne
+					var t = 0;
+					for (const i of personne){
+						if (i[0]==p){
+							var l = personne[t];
+							delete personne[t];
+							l.push("1 FAMC @"+ famille_index +"@");
+							personne.push(l);
+							break;
+						}
+						t ++;
+					}
+				}
+				if (role == 0){
+					r2 = r2 + "0 HUSB " + p +"\n";
+				}
+				if (role == 1){
+					r2 = r2 + "0 WIFE " + p +"\n";
+				}
+				if (role > 1){
+					r2 = r2 + "0 CHIL " + p +"\n";
+				}
+				role ++;
+				personne = personne.filter(function () { return true });
+			}
+			famille_link_ls.push(r2)
+			//Supp les empty event
+			personne = personne.filter(function () { return true });
+		}
+		alert(personne);
+		for (const p of personne){
+			alert(p)
+			var tour = 0;
+			for (const info of p){
+				if (tour == 0){
+					result = result + "0 " + info + " INDI\n"
+				}
+				if (tour == 1){
+					result = result + "1 NAME " + info
+				}
+				if (tour == 2){
+					result = result + " /" + info + "/\n"
+				}
+				if (tour == 3){
+					result = result + "1 SEX " + info + "\n"
+				}
+				if (tour == 4){
+					result = result + "1 BIRT\n2 DATE " + info + "\n"
+				}
+				if (tour > 4){
+					result = result + info + "\n"
+				}
+				tour ++;
+			}
+		}
+		for (const f of famille_link_ls){
+			result = result + f
+		}
+		result = result + "0 TRLR"
+		alert(result)
+		docment.getElementById("Result").innerHTML = result;
+	}
+</script>
+
+<html>
+	<head>
+		
+		<meta charset="utf-8">
+		<title>Arbre Généalogique</title>
+		<link rel="stylesheet" href="style.css">
+
+	</head>
+	<body>
+		
+		<header>
+			<h1>Arbre Généalogique</h1>
+			<h2>By BiMathAx STUDIO</h2>
+		</header>
+
+		<div class="ecran">
+			<div class="parents">
+				<h1>Parents :</h1>
+				<p>
+					<label id="Pere"></label>
+					<br>
+					<label id="Mere"></label>
+				</p>
+			</div>
+
+			<div class="main_character">
+				<h1>Nom :</h1>
+				<p>
+					<label id="Nom"></label>
+				</p>
+				<h1>Prénom :</h1>
+				<p>
+					<label id="Prenom"></label>
+				</p>
+				<h1>Age :</h1>
+				<p>
+					<label id="Age"></label>
+				</p>
+				<div id="img1_div">
+					<img src="https://image.flaticon.com/icons/png/512/32/32551.png" width=45% height=30% >
+				</div>
+				<div id="img2_div">
+					<img src="https://image.flaticon.com/icons/png/512/31/31544.png" width=50% height=30% >
+				</div>
+			</div>	
+
+			<div class="compagne">
+				<h1>Epoux/se :</h1>
+				<p>
+					<label id="compagne_label"></label>
+				</p>
+				<h1>Enfants :</h1>
+				<select id="kid">
+					<option id="kid1"></option>
+					<option id="kid2"></option>
+					<option id="kid3"></option>
+					<option id="kid4"></option>
+					<option id="kid5"></option>
+				</select>
+				<p>
+					<br>
+					<input id="button_delete_kid"type="button" name="" value="delete kid" onclick="supp_kid();">
+				</p>
+			</div>
+		</div>
+
+
+		<div class="panneau_config">
+			<h1>Nom :</h1>
+			<input id="entry_name" class="entry" type="text" name="" placeholder="Name here">
+			<h1>Prénom :</h1>
+			<input id="entry_surname" class="entry" ype="text" name="" placeholder="Surname here">
+			<h2>Sexe :</h2>
+			<p class="check">
+				<input type="checkbox" name="" placeholder="Name here" id="Homme" onclick="checkbutton('Homme');">
+				<label for="Homme">Homme</label>
+				<input type="checkbox" name="" placeholder="Name here" id="Femme" onclick="checkbutton('Femme');">
+				<label for="Femme">Femme</label>
+			</p>
+			<h1>Age :</h1>
+			<input type="date" name="" id="date">
+			<h1>Père :</h1>
+			<input id="entry_name_pere" class="entry" type="text" name="" placeholder="Name">
+			<input id="entry_surname_pere" class="entry" type="text" name="" placeholder="Surname">
+			<h1>Mère :</h1>
+			<input id="entry_name_mere" class="entry" type="text" name="" placeholder="Name">
+			<input id="entry_surname_mere" class="entry" type="text" name="" placeholder="Surname">
+			<h1>Époux/se :</h1>
+			<input id="entry_name_cop" class="entry" type="text" name="" placeholder="Name">
+			<input id="entry_surname_cop" class="entry" type="text" name="" placeholder="Surname">
+			<input type="button" value="Validate" id="Button_ok" onclick="validate();">
+			<br><br><br>
+			<h1>Enfant :</h1>
+			<input id="entry_name_kid" class="entry" type="text" name="" placeholder="Name">
+			<input id="entry_surname_kid" class="entry" type="text" name="" placeholder="Surname">
+			<input type="button" value="Add" id="Button_ok" onclick="add_kid();">
+			<input type="button" value="Save" id="Button_ok" onclick="save();">
+			<h1>Result :</h1>
+			<label id="result"></label>
+
+		</div>
+
+		<footer>
+			<p> © BiMatAx 2021-2022 </p>
+		</footer>
+
+	</body>
+</html>

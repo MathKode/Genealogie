@@ -1,0 +1,29 @@
+<!-- Ce document permet de montrer que les informations enregistrer dans une variables
+	du code javascript reste définie sur cette valeur du moment que la page est ouverte -->
+
+<!DOCTYPE html>
+
+<script type="text/javascript">
+	var mot = ""
+	function afficher() {
+		p = document.getElementById("ps").value;
+		mot = mot + p;
+		alert(mot);
+	}
+</script>
+
+<html>
+	<head>
+		
+		<meta charset="utf-8">
+		<title>Arbre Généalogique</title>
+		<link rel="stylesheet" href="style.css">
+
+	</head>
+	<body>
+		<input id="ps" type="text" name="">
+		<input type="button" name="" onclick="afficher();">
+
+
+	</body>
+</html>
