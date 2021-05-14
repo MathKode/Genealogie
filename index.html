@@ -317,13 +317,13 @@
 					}
 				}
 				if (role == 0){
-					r2 = r2 + "0 HUSB " + p +"\n";
+					r2 = r2 + "1 HUSB " + p +"\n";
 				}
 				if (role == 1){
-					r2 = r2 + "0 WIFE " + p +"\n";
+					r2 = r2 + "1 WIFE " + p +"\n";
 				}
 				if (role > 1){
-					r2 = r2 + "0 CHIL " + p +"\n";
+					r2 = r2 + "1 CHIL " + p +"\n";
 				}
 				role ++;
 				personne = personne.filter(function () { return true });
@@ -331,10 +331,11 @@
 			famille_link_ls.push(r2)
 			//Supp les empty event
 			personne = personne.filter(function () { return true });
+			famille_index ++;
 		}
-		alert(personne);
+		//alert(personne);
 		for (const p of personne){
-			alert(p)
+			//alert(p)
 			var tour = 0;
 			for (const info of p){
 				if (tour == 0){
@@ -362,8 +363,10 @@
 			result = result + f
 		}
 		result = result + "0 TRLR"
-		alert(result)
-		docment.getElementById("Result").innerHTML = result;
+		result = result.split('\n')
+		result = result.join("<br>")
+		//alert(result)
+		document.getElementById("result").innerHTML = result;
 	}
 </script>
 
