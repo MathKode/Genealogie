@@ -1,2 +1,3 @@
 # Genealogie
 Un petit site web de généalogie
+Il créer un fichier .ged qui peut être lu sur tout les site de généalogie comme filae...
