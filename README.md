@@ -1,2 +1,2 @@
-# G-n-alogie
+# Genealogie
 Un petit site web de généalogie
