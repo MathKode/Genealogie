@@ -19,19 +19,18 @@
 		name = document.getElementById("entry_name").value;
 		surname = document.getElementById("entry_surname").value;
 		age = document.getElementById("date").value;
-		
 		// Inverse la vr age 
 		age_ls = age.split("-");
 		var age_reverse = [];
 		for (const i of age_ls) {
 			age_reverse.unshift(i);
 		}
+
 		age = age_reverse.join("/");
 		//Remplace les valeurs
 		document.getElementById('Nom').innerHTML = name;
 		document.getElementById('Prenom').innerHTML = surname;
 		document.getElementById('Age').innerHTML = age;
-
 		//Ajoute ceci à la list personne
 		var exist = false;
 		var t = 0;
@@ -42,7 +41,6 @@
 			}
 			t = t + 1;
 		}
-		
 		if (exist){
 			delete personne[position];
 		}
@@ -105,7 +103,6 @@
 			var perso = ["@" + index_father + "@",name,surname,"M",""];
 			personne.push(perso);
 		}
-		
 		father_id = "@" + index_father + "@"
 
 		//Mother
@@ -138,9 +135,10 @@
 		}
 		
 		mother_id = "@" + index_mother + "@"
-
 		//lien Pere Mere
 		// Recher la ou index soon est enfant
+		//Supp les empty event
+		lien = lien.filter(function () { return true })
 		var t = 0;
 		var exist = false;
 		for (const l of lien){
@@ -171,11 +169,13 @@
 		document.getElementById("compagne_label").innerHTML = name + " " + surname;
 		//lien Epoux/se
 		// Recherche la ou il est le père ou la mère
+		//Supp les empty event
+		lien = lien.filter(function () { return true });
 		if (sex == "M"){
 			var t = 0;
 			var exist = false;
 			for (const l of lien){
-				if (l[0] && l[0] == soon_id){
+				if (l[0] == soon_id){
 					exist = true;
 					position = t;
 				}
@@ -194,7 +194,7 @@
 			var t = 0;
 			var exist = false;
 			for (const l of lien){
-				if (l[1] && l[1] == soon_id){
+				if (l[1] == soon_id){
 					exist = true;
 					position = t;
 				}
@@ -234,7 +234,6 @@
 			var perso = ["@" + index_wife + "@",name,surname,"",""];
 			personne.push(perso);
 		}
-		
 		//Supp les empty event
 		personne = personne.filter(function () { return true });
 
@@ -272,8 +271,10 @@
 		}
 	}
 	function save(){
-		//alert("ok")
+		//alert("ok")s
 		var result = "0 HEAD\n1 SOUR BiMathAx\n1 GEDC\n2 FORM VERS 5.5\n1 CHAR UTF-8\n1 LANG FRENCH\n";
+		personne = personne.filter(function () { return true });
+		lien = lien.filter(function () { return true });
 		var famille_index = personne.length + 1;
 		var famille_link_ls = [];
 		//alert("ok2")
@@ -363,10 +364,26 @@
 			result = result + f
 		}
 		result = result + "0 TRLR"
-		result = result.split('\n')
-		result = result.join("<br>")
 		//alert(result)
-		document.getElementById("result").innerHTML = result;
+		//document.getElementById("result").innerHTML = result;
+		download("mon_arbre_genealogique.ged",result);
+	}
+	function download(filename, text) {
+	    var pom = document.createElement('a');
+	    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+	    pom.setAttribute('download', filename);
+
+	    if (document.createEvent) {
+	        var event = document.createEvent('MouseEvents');
+	        event.initEvent('click', true, true);
+	        pom.dispatchEvent(event);
+	    }
+	    else {
+	        pom.click();
+	    }
+	}
+	function upload(){
+		
 	}
 </script>
 
@@ -467,8 +484,6 @@
 			<input id="entry_surname_kid" class="entry" type="text" name="" placeholder="Surname">
 			<input type="button" value="Add" id="Button_ok" onclick="add_kid();">
 			<input type="button" value="Save" id="Button_ok" onclick="save();">
-			<h1>Result :</h1>
-			<label id="result"></label>
 
 		</div>
 
